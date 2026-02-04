@@ -1,6 +1,13 @@
 <?php
+require __DIR__ . '/../app/controllers/HomeController.php';
 
-require_once __DIR__ . '/../app/controllers/HomeController.php';
+$page = $_GET['page'] ?? 'home';
+$action = $_GET['action'] ?? null;
 
 $controller = new HomeController();
-$controller->index();
+
+if ($action === 'contact') {
+    $controller->submitContact();
+} else {
+    $controller->index($page);
+}
