@@ -134,68 +134,98 @@ Aucun livre trouvé
 {% endif %}
 
 </div>
+
 <script>
+
+// =====================
+// DELETE
+// =====================
+
+document.querySelectorAll('.btn-delete').forEach(btn => {
+
+    btn.addEventListener('click', function(){
+
+        if(!confirm('Confirmer suppression ?')) return;
+
+        let id = this.dataset.id;
+
+        fetch('index.php?page=livre.delete', {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/x-www-form-urlencoded'
+            },
+            body:`id=${id}`
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            if(data.success){
+                shadowToast('Livre supprimé');
+                location.reload();
+            }
+
+        });
+
+    });
+
+});
+
+
+// =====================
+// EDIT
+// =====================
 
 document.querySelectorAll('.btn-edit').forEach(btn => {
 
-btn.addEventListener('click', function(){
+    btn.addEventListener('click', function(){
 
-let row = this.closest('tr');
+        let row = this.closest('tr');
 
-let id = this.dataset.id;
-let titre = this.dataset.titre;
-let annee = this.dataset.annee;
-let disponible = this.dataset.disponible == 1 ? 'checked' : '';
+        let id = this.dataset.id;
+        let titre = this.dataset.titre;
+        let annee = this.dataset.annee;
+        let disponible = this.dataset.disponible == 1 ? 'checked' : '';
 
-row.innerHTML = `
-<td>${id}</td>
+        row.innerHTML = `
+        <td>${id}</td>
+        <td><input class="form-control edit-titre" value="${titre}"></td>
+        <td><input class="form-control edit-annee" value="${annee}"></td>
+        <td>
+            <input type="checkbox" class="form-check-input edit-dispo" ${disponible}>
+        </td>
+        <td>
+            <button class="btn btn-success btn-save">Save</button>
+        </td>
+        `;
 
-<td><input class="form-control edit-titre" value="${titre}"></td>
+        row.querySelector('.btn-save').addEventListener('click', function(){
 
-<td><input class="form-control edit-annee" value="${annee}"></td>
+            let newTitre = row.querySelector('.edit-titre').value;
+            let newAnnee = row.querySelector('.edit-annee').value;
+            let newDispo = row.querySelector('.edit-dispo').checked ? 1 : 0;
 
-<td>
-<input type="checkbox" class="form-check-input edit-dispo" ${disponible}>
-</td>
+            fetch('index.php?page=livre.edit', {
 
-<td>
-<button class="btn btn-success btn-save">Save</button>
-</td>
-`;
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/x-www-form-urlencoded'
+                },
+                body:`id=${id}&titre=${newTitre}&annee=${newAnnee}&disponible=${newDispo}`
 
-row.querySelector('.btn-save').addEventListener('click', function(){
+            })
+            .then(res => res.json())
+            .then(data => {
 
-let newTitre = row.querySelector('.edit-titre').value;
-let newAnnee = row.querySelector('.edit-annee').value;
-let newDispo = row.querySelector('.edit-dispo').checked ? 1 : 0;
+                if(data.success){
+                    shadowToast('Livre modifié');
+                    location.reload();
+                }
 
-fetch('index.php?page=livre.edit', {
+            });
 
-method:'POST',
+        });
 
-headers:{
-'Content-Type':'application/x-www-form-urlencoded'
-},
-
-body:`id=${id}&titre=${newTitre}&annee=${newAnnee}&disponible=${newDispo}`
-
-})
-.then(res => res.json())
-.then(data => {
-
-if(data.success){
-
-shadowToast('Livre modifié ✅');
-
-location.reload();
-
-}
-
-});
-
-});
-
-});
+    });
 
 });
 
