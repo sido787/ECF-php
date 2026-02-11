@@ -94,7 +94,7 @@ if(in_array($page, $protectedPages) && !isset($_SESSION['user'])){
         }
 
         
-        // DELETE LIVRE (AJAX READY)
+        // DELETE LIVRE AJAX READY
         
         if ($page === 'livre.delete') {
 
@@ -114,7 +114,7 @@ if(in_array($page, $protectedPages) && !isset($_SESSION['user'])){
         }
 
        
-        // EDIT LIVRE (AJAX READY)
+        // EDIT LIVRE AJAX READY
         
         if ($page === 'livre.edit') {
 
