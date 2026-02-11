@@ -1,0 +1,66 @@
+{% extends "layouts/base.twig" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h1 class="mb-4">Modifier un livre</h1>
+
+<form id="editForm">
+
+<input type="hidden" name="id" value="{{ livre.id }}">
+
+<div class="mb-3">
+<label>Titre</label>
+<input type="text" name="titre" class="form-control"
+value="{{ livre.titre }}" required>
+</div>
+
+<div class="mb-3">
+<label>Année</label>
+<input type="number" name="annee" class="form-control"
+value="{{ livre.annee_publication }}" required>
+</div>
+
+<div class="form-check mb-3">
+<input type="checkbox" name="disponible"
+class="form-check-input"
+{% if livre.disponible == 1 %}checked{% endif %}>
+<label class="form-check-label">Disponible</label>
+</div>
+
+<button class="btn btn-primary">Modifier</button>
+
+</form>
+
+</div>
+
+<script>
+
+document.getElementById('editForm').addEventListener('submit', function(e){
+
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    fetch('index.php?page=livre.edit', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        if(data.success){
+
+            alert('Livre modifié ✅');
+            window.location.href = 'index.php?page=livres';
+
+        }
+
+    });
+
+});
+
+</script>
+
+{% endblock %} 

@@ -1,23 +1,23 @@
 <?php
 
-class Database
-{
-    private static $pdo = null;
+class Database {
 
-    public static function getConnection()
+    private static $pdo;
+
+    public static function connect()
     {
-        if (self::$pdo === null) {
+        if (!self::$pdo) {
+
             self::$pdo = new PDO(
-                "mysql:host=localhost;dbname=ecf_php;charset=utf8mb4",
+                "mysql:host=localhost;dbname=ecf_php;charset=utf8",
                 "root",
-                "",
-                [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-                ]
+                ""
             );
+
+            self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
 
         return self::$pdo;
     }
 }
+    

@@ -6,7 +6,7 @@ class Contact
 {
     public static function create($name, $email, $message)
     {
-        $db = Database::getConnection();
+        $db = Database::connect();
 
         $sql = "INSERT INTO contacts (name, email, message)
                 VALUES (:name, :email, :message)";
