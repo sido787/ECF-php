@@ -43,9 +43,9 @@ Accès sécurisé via session PHP.
 - Bootstrap
 - AJAX
 
-## ▶ Installati
+##  Installati
 
-## ⚙️ Installation
+##  Installation
 
 1. Cloner le projet :
 
